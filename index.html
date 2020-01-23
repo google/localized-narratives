@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<head>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116935204-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-116935204-3');
+	</script>
+
+
+	<meta charset="utf-8">
+	<title>Localized Narratives</title>
+	<meta name="description" content="Localized Narratives">
+	<meta name="author" content="Jordi Pont-Tuset">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Courier+Prime" rel="stylesheet">
+		
+	<style type="text/css">
+		* {
+			font-family: 'Open Sans', sans-serif;
+			line-height: 1.6;
+		}
+
+		.center{
+			text-align: center;
+		}
+
+		h1, h2 {
+			text-align: center;
+		}
+
+		h1 {
+			font-size: 45px;
+			margin-bottom: 50px;
+			margin-top: 50px;
+		}
+
+		h2 {
+			font-size: 22px;
+		}
+
+		hr.separator {
+	    background: #000;
+	    max-width: 70px;
+	    height: 9px;
+		}
+		div.block{
+			margin-bottom: 50px;
+		}
+		div.wrap{
+			max-width: 900px;
+			margin: auto;
+		}
+    /*************************************
+     The box that contain BibTeX code
+     *************************************/
+    div.noshow { display: none; }
+    div.bibtex {
+        margin: auto;
+        margin-top: 20px;
+        border: 1px solid silver;
+        padding: 0.3em 0.5em;
+        background: #ffffee;
+        max-width: 810px; 
+    }
+    div.bibtex pre {
+    	font-size: 75%; 
+    	margin: 7px 5px 3px 5px;
+    	overflow: auto;  
+    	text-align: left;
+			font-family: 'Courier Prime', monospace;
+    }
+	</style>
+
+	<script type="text/javascript">
+	 // Toggle Display of BibTeX
+	 function toggleBibtex(articleid) {
+	     var bib = document.getElementById('bib_'+articleid);
+	     if (bib) {
+	         if(bib.className.indexOf('bibtex') != -1) {
+	             bib.className.indexOf('noshow') == -1?bib.className = 'bibtex noshow':bib.className = 'bibtex';
+	         }
+	     } else {
+	         return;
+	     }
+	 }
+	</script>
+</head>
+
+<body>
+	<div class="wrap">
+		<h1>Localized Narratives</h1>
+		<hr class="separator">
+		<h2>Publication</h2>
+		<div class="center block"><b>Connecting Vision and Language with Localized Narratives</b><br>Jordi Pont-Tuset, Jasper Uijlings, Soravit Changpinyo, Radu Soricut, and Vittorio Ferrari<br>
+			[<a href="https://arxiv.org/abs/1912.03098" target="_blank">PDF</a>] [<a href="javascript:toggleBibtex('PontTuset_arxiv2019')">BibTeX</a>]<br>
+		<div id="bib_PontTuset_arxiv2019" class="bibtex noshow">
+			<pre>
+@article{PontTuset_arxiv2019,
+  author  = {Jordi Pont-Tuset and Jasper Uijlings and Soravit Changpinyo and Radu Soricut and Vittorio Ferrari},
+  title   = {Connecting Vision and Language with Localized Narratives},
+  journal = {arXiv},
+  volume  = {1912.03098},
+  year    = {2019}
+}</pre>
+			</div>	
+		</div>
+		<hr class="separator">
+		<h2 style="margin-top: 50px; margin-bottom: 50px;">Coming Early 2020!</h2>
+		<hr class="separator">
+</body></html>
