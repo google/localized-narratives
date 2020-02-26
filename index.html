@@ -1,125 +1,911 @@
-<!DOCTYPE html>
+<!DOCTYPE html><html><head><!--
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+--><!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
 
-<head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-116935204-3"></script>
+    <meta charset="utf-8">
+  <title>Localized Narratives</title>
+  <meta content="Localized Narratives" name="description">
+  <meta content="Jordi Pont-Tuset" name="author">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116935204-3"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-116935204-3');
-	</script>
-
-
-	<meta charset="utf-8">
-	<title>Localized Narratives</title>
-	<meta name="description" content="Localized Narratives">
-	<meta name="author" content="Jordi Pont-Tuset">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Courier+Prime" rel="stylesheet">
-		
-	<style type="text/css">
-		* {
-			font-family: 'Open Sans', sans-serif;
-			line-height: 1.6;
-		}
+  <link href="https://fonts.googleapis.com/css?family=Courier+Prime" rel="stylesheet">
 
-		.center{
-			text-align: center;
-		}
+  </head>
+<body><div hidden="" by-vulcanize=""><dom-module id="loco-image" assetpath="/loco-image/">
+  <template>
+    <style>
+      /* This is needed to make sure the polymer component has an
+      offsetWidth. */
+      :host {
+        display: block;
+      }
+      #main, #canvasContainer {
+        width: 100%;
+      }
+      svg {
+        border-style: solid;
+      }
+      .flexcol {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .flexrow {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+    </style>
+    <div id="main">
+      <template is="dom-if" if="[[title]]">
+        <div>[[title]]</div>
+      </template>
+      
+      <div id="canvasContainer" hidden$="[[!imageLoaded_]]">
+        <svg id="canvas" on-tap="handleTap_" height$="[[canvasHeight]]" width$="[[canvasWidth]]" style="[[getCanvasStyle_(effectiveFontSize_, borderWidth)]]">
+          <g id="image" transform$="[[imageZoomTransform_]]">
+            <image href$="[[effectiveImageUrl_]]" height$="[[imageHeight]]" width$="[[imageWidth]]">
+              <slot id="content"></slot>
+            </image>
+          </g>
+        </svg>
+      </div>
+      <div hidden$="[[imageLoaded_]]" id="loader" style="[[getLoaderStyle_(borderWidth, canvasHeight, canvasWidth)]]">
+        <div class="flexcol">
+          <div class="flexrow">
+            <paper-spinner-lite active="[[!imageLoadingHasError_]]">
+            </paper-spinner-lite>
+            <span hidden$="[[!imageLoadingHasError_]]">
+              Failed to load image from [[imageUrl]].
+            </span>
+          </div>
+        </div>
+      </div>
 
-		h1, h2 {
-			text-align: center;
-		}
+      <div hidden="">
+        <span>Client Coordinates: ([[clientPoint_.x]], [[clientPoint_.y]])</span><br>
+        <span>Canvas Coordinates: ([[canvasPoint_.x]], [[canvasPoint_.y]])</span><br>
+        <span>Image Coordinates: ([[imagePoint.x]], [[imagePoint.y]])</span><br>
+        <span>ViewBox Coordinates: ([[viewBoxPoint_.x]], [[viewBoxPoint_.y]])</span><br>
+        <span>imageTransform translation: ([[imageTransform_.x]],[[imageTransform_.y]])&gt;</span><br>
+        <span>imageTransform scale: [[imageTransform_.scale]]</span><br>
+        <span>ScaleRatio_: [[scaleRatio]]</span>
+      </div>
+    </div>
+  </template>
+  </dom-module>
+<dom-module id="loco-bounding-box" assetpath="/loco-bounding-box/">
+  <template>
+    
+    <svg>
+      <g id="box">
+        
+        <rect x$="[[xmin]]" y$="[[ymin]]" height$="[[height]]" width$="[[width]]" stroke$="[[borderColorRgba]]" stroke-width$="[[effectiveBorderWidth_]]" stroke-dasharray$="[[borderDashArray]]" fill="none"></rect>
+        
+        
+        <foreignObject x$="[[xmin]]" y$="[[ymin]]" height$="[[height]]" width$="[[width]]">
+          
+          <div>
+            
+            <input id="inputText" type="text" value$="[[text]]" hidden$="[[!effectiveShowInputField_]]" style="[[getInputTextStyle_(effectiveFontSize_)]]">
+            <span id="text" hidden$="[[!effectiveShowText_]]" style="[[getTextStyle_(textBackgroundColorRgba)]]">
+              [[text]]
+            </span>
+          </div>
+        </foreignObject>
+      </g>
+    </svg>
+  </template>
+  </dom-module>
+<dom-module id="loco-point" assetpath="/loco-point/">
+  <template>
+    <svg>
+      <g id="point">
+        <circle cx$="[[data.x]]" cy$="[[data.y]]" r$="[[radius_(data,scaleRatio)]]" fill$="[[color_(data)]]">
+        </circle>
+      </g>
+    </svg>
+  </template>
+  </dom-module>
+<dom-module id="loco-curve" assetpath="/loco-curve/">
+  <template>
+    <svg>
+      <g id="curve">
+        <path d$="[[curveString_]]" fill="none" stroke$="[[lineColor]]" stroke-width$="[[effectiveStrokeWidth_]]">
+        </path>
+      </g>
+    </svg>
+  </template>
+  </dom-module><dom-module id="loco-segmentation-mask" assetpath="/loco-segmentation-mask/">
+  <template>
+    <svg>
+      <g id="mask">
+        <path d$="[[pathString_]]" fill$="[[fillColor]]" fill-rule="evenodd" fill-opacity$="[[fillOpacity]]">
+      </path></g>
+    </svg>
+  </template>
+  </dom-module>
+<dom-module id="loco-label" assetpath="/loco-label/">
+  <template>
+    <svg>
+      <g id="label">
+        
+        <foreignObject x$="[[data.x]]" y$="[[data.y]]" height="1px" width="1px" style="overflow: visible">
+          <div>
+            <input id="inputText" type="text" value$="[[data.text]]" style="[[getInputTextStyle_(editingText, scaleRatio)]]">
+            <span id="text" style="[[getTextStyle_(data.*, editingText, scaleRatio)]]">
+              [[data.text]]
+            </span>
+          </div>
+        </foreignObject>
+      </g>
+    </svg>
+  </template>
+  </dom-module>
+<dom-module id="loco-labeled-point" assetpath="/loco-labeled-point/">
+  <template>
+    
+    <template is="dom-if" if="[[data.point]]">
+      <loco-point data="{{data.point}}"></loco-point>
 
-		h1 {
-			font-size: 45px;
-			margin-bottom: 50px;
-			margin-top: 50px;
-		}
+      
+      <template is="dom-if" if="[[data.label]]">
+        <loco-label editing-text="{{editingText}}" data="{{data.label}}">
+        </loco-label>
+      </template>
+    </template>
+  </template>
+  </dom-module>
+<dom-module id="loco-binary-mask" assetpath="/loco-binary-mask/">
+  <template>
+    <div hidden="">
+      <canvas id="maskCanvas">
+      </canvas>
+    </div>
+    <svg>
+      <g id="binaryMask">
+        <image id="rasterImage">
+      </image></g>
+    </svg>
+  </template>
+  </dom-module>
+<dom-module id="loco-annotated-image" assetpath="/loco-annotated-image/">
+  <template>
+    <style>
+      #image {
+          text-align: var(--loco-annotated-image-text-align);
+      }
+    </style>
+    <loco-image id="image" title="[[title]]" image-url="[[imageUrl]]" border-width="[[borderWidth]]" canvas-height="[[canvasHeight]]" canvas-width="[[canvasWidth]]" canvas-margin="[[canvasMargin]]" image-height="{{imageHeight}}" image-width="{{imageWidth}}" font-size="[[fontSize]]" image-data="{{imageData}}" expose-image-data="[[exposeImageData]]" image-point="{{imagePoint}}">
+      
+      <template is="dom-repeat" items="[[objects]]" filter="hasBoundingBox_" observe="bounding_box">
+        <loco-bounding-box color="[[colorOrDefault_(item)]]" xmin="[[item.bounding_box.xmin]]" xmax="[[item.bounding_box.xmax]]" ymin="[[item.bounding_box.ymin]]" ymax="[[item.bounding_box.ymax]]" border-dash-array="[[item.bounding_box.dash_array]]" text="[[item.text]]">
+        </loco-bounding-box>
+      </template>
 
-		h2 {
-			font-size: 22px;
-		}
+      
+      <template is="dom-repeat" items="[[boundingBoxes]]">
+        <loco-bounding-box color="[[colorOrDefault_(item)]]" border-dash-array="[[dashArrayOrDefault_(item)]]" xmin="[[item.xmin]]" xmax="[[item.xmax]]" ymin="[[item.ymin]]" ymax="[[item.ymax]]" text="[[item.text]]">
+        </loco-bounding-box>
+      </template>
 
-		hr.separator {
-	    background: #000;
-	    max-width: 70px;
-	    height: 9px;
-		}
-		div.block{
-			margin-bottom: 50px;
-		}
-		div.wrap{
-			max-width: 900px;
-			margin: auto;
-		}
-    /*************************************
-     The box that contain BibTeX code
-     *************************************/
-    div.noshow { display: none; }
-    div.bibtex {
-        margin: auto;
-        margin-top: 20px;
-        border: 1px solid silver;
-        padding: 0.3em 0.5em;
-        background: #ffffee;
-        max-width: 810px; 
+      
+      <template is="dom-repeat" items="[[clicksToPoints_(clicks)]]">
+        <loco-point data="[[item]]">
+        </loco-point>
+      </template>
+
+      
+      <template is="dom-repeat" items="{{points}}">
+        <template is="dom-if" if="[[item.x]]">
+          <loco-point data="[[item]]">
+          </loco-point>
+        </template>
+        <template is="dom-if" if="[[isLabeledPoint_(item)]]">
+          <loco-labeled-point data="[[item]]">
+          </loco-labeled-point>
+        </template>
+      </template>
+
+      
+      <template is="dom-repeat" items="{{labels}}">
+        <loco-label data="{{item}}">
+        </loco-label>
+      </template>
+
+      
+      <template is="dom-repeat" items="[[regions]]">
+        <loco-segmentation-mask polygons="{{item}}" fill-color="[[getSegmentationColor_(index)]]">
+        </loco-segmentation-mask>
+      </template>
+
+      
+      <template is="dom-repeat" items="[[curves]]">
+        <loco-curve line-color="rgb(0,200,0)" line-width="1" points="{{item}}">
+        </loco-curve>
+      </template>
+
+      
+      <template is="dom-repeat" items="[[masks]]">
+        <loco-binary-mask class="binaryMasks" mask="{{item}}">
+        </loco-binary-mask>
+      </template>
+
+    </loco-image>
+
+    
+    <div hidden="">
+      <template is="dom-if" if="[[points.length]]">
+        <b>Labeled points ([[points.length]]):</b><br>
+      </template>
+      <template is="dom-repeat" items="[[points]]">
+        <template is="dom-if" if="[[!item.point]]">
+          ([[item.x]], [[item.y]])<br>
+        </template>
+        <template is="dom-if" if="[[item.point]]">
+          <i>Label:</i> [[item.label.text]]. <i>Position:</i> ([[item.point.x]], [[item.point.y]]).
+          <template is="dom-if" if="[[item.time_interval]]">
+            <i>Times:</i> ([[item.time_interval.start]], [[item.time_interval.end]])
+          </template>
+          <br>
+        </template>
+      </template>
+    </div>
+  </template>
+  </dom-module>
+<style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
     }
-    div.bibtex pre {
-    	font-size: 75%; 
-    	margin: 7px 5px 3px 5px;
-    	overflow: auto;  
-    	text-align: left;
-			font-family: 'Courier Prime', monospace;
+
+    table {
+      width: 100%;
     }
 
-    .paper-col{width:12.5%;float:left;}
-		.paper-col-im{width:98%;border: 1px solid black;margin:2px;}
-	</style>
+    table,
+    tr,
+    td {
+      border: none;
+      border-collapse: collapse;
+    }
 
-	<script type="text/javascript">
-	 // Toggle Display of BibTeX
-	 function toggleBibtex(articleid) {
-	     var bib = document.getElementById('bib_'+articleid);
-	     if (bib) {
-	         if(bib.className.indexOf('bibtex') != -1) {
-	             bib.className.indexOf('noshow') == -1?bib.className = 'bibtex noshow':bib.className = 'bibtex';
-	         }
-	     } else {
-	         return;
-	     }
-	 }
-	</script>
-</head>
+    td {
+      padding: 10px;
+    }
 
-<body>
-	<div class="wrap">
-		<h1>Localized Narratives</h1>
-		<hr class="separator">
-		<h2>Publication</h2>
-		<a href="https://arxiv.org/abs/1912.03098" target="_blank">
-						<div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-01.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-02.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-03.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-04.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-05.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-06.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-07.png"/></div><div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-08.png"/></div></a>	
-					
-		<div class="center block"><b>Connecting Vision and Language with Localized Narratives</b><br>
-			Jordi Pont-Tuset, Jasper Uijlings, Soravit Changpinyo, Radu Soricut, and Vittorio Ferrari<br>
-			arXiv:1912.03098, 2019<br>
-			[<a href="https://arxiv.org/abs/1912.03098" target="_blank">PDF</a>] [<a href="javascript:toggleBibtex('PontTuset_arxiv2019')">BibTeX</a>]<br>
-		<div id="bib_PontTuset_arxiv2019" class="bibtex noshow">
-			<pre>
-@article{PontTuset_arxiv2019,
+    #audio {
+      display: block;
+      outline: none;
+      width: 100%;
+    }
+
+    .card-actions {
+      color: white;
+      background-color: #126a73;
+      border: 0;
+      display: flex;
+    }
+
+    #visualizer {
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s;
+      -webkit-transition: all 0.3s;
+      position: fixed;
+      z-index: 1001;
+      margin: 0;
+      max-width: 1200px;
+      width: 90%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: var(--shadow-elevation-16dp_-_box-shadow);
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    #mask {
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s;
+      -webkit-transition: all 0.3s;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background-color: rgb(0, 0, 0);
+    }
+
+    #start-mask {
+      opacity: 100%;
+      transition: all 0.3s;
+      -webkit-transition: all 0.3s;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background-color: white;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 45px;
+      margin-bottom: 50px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      font-size: 22px;
+    }
+
+    hr.separator {
+      background: #000;
+      max-width: 70px;
+      height: 9px;
+      border: none;
+    }
+
+    .block {
+      margin-bottom: 75px;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .paper-col {
+      width: 12.5%;
+      float: left;
+    }
+
+    .paper-col-im {
+      width: 98%;
+      border: 1px solid black;
+      margin: 2px;
+    }
+
+    #mask paper-spinner{
+      width: 100px;
+      height: 100px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50% -50%);
+      --paper-spinner-layer-1-color: white;
+      --paper-spinner-layer-2-color: white;
+      --paper-spinner-layer-3-color: white;
+      --paper-spinner-layer-4-color: white;
+      --paper-spinner-stroke-width: 10px;
+    }
+
+    #start-mask paper-spinner {
+      width: 100px;
+      height: 100px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50% -50%);
+      --paper-spinner-stroke-width: 10px;
+    }
+
+    #open-visualizer {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .page-button {
+      font-family: 'Open Sans', sans-serif;
+      width: 100%;
+      background-color: #126a73;
+      color: white;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    paper-button:hover {
+      background-color: #13a3ac;
+    }
+
+    paper-button {
+      text-transform: none;
+      transition: background-color 0.3s;
+    }
+
+    .col-download-text {
+      margin-top: 10px;
+      width: 15%;
+      float: left;
+    }
+
+    .col-download-buttons {
+      width: 85%;
+      float: left;
+      display: flex;
+    }
+
+    .col-button {
+      margin: 0;
+      padding-left: 5px;
+      padding-right: 5px;
+      float: left;
+    }
+
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+      margin-bottom: 8px;
+    }
+
+    #subfiles-oid-train,
+    #subfiles-coco-train {
+      margin: 0;
+      display: flex;
+      padding: 10px;
+    }
+
+
+    .caption-card {
+      font-family: 'Open Sans', sans-serif;
+      border: 2px solid #f1f3f4;
+      padding: 0;
+      width: 100%;
+      border-radius: 9px;
+      display: flex;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .caption-title {
+      width: 20%;
+      max-width: 100px;
+      float: left;
+      background-color: #f1f3f4;
+      padding: 3px 10px;
+    }
+
+    .caption-content {
+      float: left;
+      padding: 3px 10px;
+    }
+
+    .icon {
+      width: 26px;
+      height: 26px;
+    }
+
+    .close-button {
+      padding: 5px;
+      position: absolute;
+      right: -16px;
+      top: -16px;
+      background-color: #126a73;
+      border-radius: 25px;
+      color: white;
+      box-shadow: var(--shadow-elevation-16dp_-_box-shadow);
+      z-index: 1002;
+    }
+
+    .field{
+      background-color: #eee;
+      border-radius: 4px;
+      padding: 3px;
+      border-left: 3px solid #126a73;
+    }
+
+    .code{
+      background-color: #eee;
+      border-radius: 4px;
+      padding: 15px;
+      border-left: 3px solid #126a73;
+    }
+
+    #close-formats-button {
+      background-color: white;
+      color: darkgray;
+      top: -42px;
+    }
+
+    #formats li{
+      margin-bottom: 10px;
+    }
+
+    #open-visualizer-image {
+      width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: none;
+      border-radius: 5px;
+    }
+
+    #explore-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: #126a73;
+      opacity: 0;
+      transition-duration: 0.3s;
+      cursor: pointer;
+      display: flex;
+    }
+
+    #explore-overlay:hover {
+      opacity: 50%;
+    }
+
+    #explore-overlay-text {
+      color: white;
+      margin: auto;
+      font-size: 200%;
+    }
+  </style></div>
+<div class="wrap">
+  <h2 style="margin-bottom: 0; margin-top: 100px;">Connecting Vision and Language with</h2>
+  <h1 style="margin-bottom: 80px; margin-top: 0">Localized Narratives</h1>
+  <hr class="separator">
+  <h2>Publication</h2>
+  <a href="https://arxiv.org/pdf/1912.03098.pdf" target="_blank">
+    <div class="row">
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-01.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-02.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-03.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-04.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-05.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-06.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-07.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-08.png"></div>
+    </div>
+  </a>
+
+  <div class="center block" style="margin-top: 10px;"><b>Connecting Vision and Language with
+    Localized Narratives</b><br>
+    Jordi Pont-Tuset, Jasper Uijlings, Soravit Changpinyo, Radu Soricut, and Vittorio Ferrari<br>
+    arXiv:1912.03098, 2019<br>
+    [<a href="https://arxiv.org/pdf/1912.03098.pdf" target="_blank">PDF</a>] [<a href="javascript:document.getElementById('bibtex').open();">BibTeX</a>]
+  </div>
+  <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" id="bibtex" with-backdrop=""><pre>@article{PontTuset_arxiv2019,
   author  = {Jordi Pont-Tuset and Jasper Uijlings and Soravit Changpinyo and Radu Soricut and Vittorio Ferrari},
   title   = {Connecting Vision and Language with Localized Narratives},
   journal = {arXiv},
   volume  = {1912.03098},
   year    = {2019}
 }</pre>
-			</div>	
-		</div>
-		<hr class="separator">
-		<h2 style="margin-top: 50px; margin-bottom: 50px;">Coming Early 2020!</h2>
-		<hr class="separator">
-</body></html>
+  </paper-dialog>
+  <hr class="separator">
+  <h2>Abstract</h2>
+  <div class="center block">
+    We propose Localized Narratives, an efficient way to collect image captions with dense visual
+    grounding. We ask annotators to describe an image with their voice while simultaneously hovering
+    their mouse over the region they are describing. Since the voice and the mouse pointer are
+    synchronized, we can localize every single word in the description. This dense visual grounding
+    takes the form of a mouse trace segment per word and is unique to our data. We annotate 628k
+    images with Localized Narratives: the whole COCO dataset and 504k images of the Open Images
+    dataset, which can be downloaded below. We provide an extensive analysis of these annotations
+    and demonstrate their utility on two applications which benefit from our
+    mouse trace: controlled image captioning and image generation.
+  </div>
+  <hr class="separator">
+  <h2>Explore Localized Narratives</h2>
+  <div class="center" style="margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+    Explore some images and play the Localized Narrative annotation: synchronized voice, caption,
+    and mouse trace. Don't forget to turn the sound on!
+  </div>
+  <paper-card id="open-visualizer-image">
+    <img src="images/loc-narr.gif">
+    <div id="explore-overlay">
+      <div id="explore-overlay-text">Explore&nbsp;<iron-icon icon="exit-to-app" style="--iron-icon-height: 30px;--iron-icon-width: 30px;"></iron-icon>
+      </div>
+    </div>
+  </paper-card>
+  <paper-button class="page-button block" id="open-visualizer">Explore</paper-button>
+  <hr class="separator">
+  <h2>Downloads</h2>
+  <div class="block">
+    <div class="center">
+      <div style="margin-bottom: 10px; margin-top:30px;"><b>Python Data Loader and Helpers</b></div>
+        <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
+          Visit the <a href="https://github.com/google/localized-narratives" target="_blank">GitHub repository</a>
+          to view the code to download and work with Localized
+          Narratives.<br>Here is the <span id="open-formats-link-1" style="text-decoration: underline;cursor: pointer;">documentation</span>
+          about the file formats used.
+      </div>
+        <div class="row" style="margin-top: 10px;">
+          <a href="https://github.com/google/localized-narratives" style="text-decoration: none;" target="_blank">
+             <paper-button class="page-button">GitHub Repository</paper-button>
+          </a>
+        </div>
+      <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        Alternatively, you can directly download the data below.
+      </div>
+    </div>
+    <div class="center">
+      <div style="margin-bottom: 10px; margin-top: 45px;"><b>Full Localized Narratives</b></div>
+              <div style="max-width: 730px; margin-left: auto; margin-right: auto;">
+                Here you can download the full Localized Narratives
+                (<span id="open-formats-link-2" style="text-decoration: underline;cursor: pointer;">format description</span>).
+                <br>Large files are split in shards (a list of them will appear when you click
+                below)
+              </div>
+      <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" id="formats" with-backdrop="">
+        <paper-icon-button class="close-button" icon="clear" id="close-formats-button"></paper-icon-button>
+        <div style="max-width: 750px; text-align: left;">
+          <h2>File formats</h2>
+          <p> The annotations are in <a href="http://jsonlines.org/" target="_blank">JSON Lines</a> format,
+            that is, each line of the file is an independent valid JSON-encoded object. The largest
+            files are split into smaller sub-files (shards) for ease of download. Since each
+            line of the file is independent, the whole file can be reconstructed by simply
+            concatenating the contents of the shards.</p>
+          <p>Each line represents one Localized Narrative annotation on one image by one annotator
+            and has the following fields:</p>
+            <ul>
+              <li><tt class="field">dataset_id</tt> String identifying the dataset and split where
+                the image belongs, e.g. <tt>mscoco_val2017</tt>.</li>
+              <li><tt class="field">image_id</tt> String identifier of the image, as specified on
+              each dataset.</li>
+              <li><tt class="field">annotator_id</tt> Integer number uniquely identifying each annotator.</li>
+              <li><tt class="field">caption</tt> Image caption as a string of characters.</li>
+              <li><tt class="field">timed_caption</tt> List of timed utterances, i.e. <tt>{utterance, start_time, end_time}</tt>
+                where <tt>utterance</tt> is a word (or group of words) and <tt>(start_time, end_time)</tt> is
+              the time during which it was spoken, with respect to the start of the recording.</li>
+              <li><tt class="field">traces</tt> List of trace segments, one between each time the mouse
+              pointer enters the image and goes away from it. Each trace segment is represented as a list
+              of timed points, i.e. <tt>{x, y, t}</tt>, where <tt>x</tt> and <tt>y</tt> are the normalized
+              image coordinates and <tt>t</tt> is the time in seconds since the start of the recording.
+                Please note that the coordinates can go a bit beyond the image, i.e. <tt>&lt;0</tt>
+                or <tt>&gt;1</tt>, as we recorded the mouse traces including a small band around the image.</li>
+              <li><tt class="field">voice_recording</tt> Relative URL path with respect to
+                <tt>https://storage.googleapis.com/localized-narratives/voice-recordings</tt>
+                where to find the voice recording (in
+                <a href="https://en.wikipedia.org/wiki/Ogg" target="_blank">OGG</a> format) for that particular image. </li>
+            </ul>
+          <p>Below a sample of one Localized Narrative in this format:</p>
+          <pre class="code">{
+  dataset_id: 'mscoco_val2017',
+  image_id: '137576',
+  annotator_id: 93,
+  caption: 'In this image there are group of cows standing and eating th...',
+  timed_caption: [{'utterance': 'In this', 'start_time': 0.0, 'end_time': 0.4}, ...],
+  traces: [[{'x': 0.2086, 'y': -0.0533, 't': 0.022}, ...], ...],
+  voice_recording: 'coco_val/coco_val_137576_93.ogg'
+}</pre>
+        </div>
+      </paper-dialog>
+    </div>
+    <div class="row" style="margin-top: 15px;">
+      <div class="col-download-text">
+        Open Images
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 100%;">
+          <paper-button class="page-button" onclick="document.getElementById('subfiles-oid-train').positionTarget = this;document.getElementById('subfiles-oid-train').open();">
+            Train
+          </paper-button>
+          <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" horizontal-align="left" id="subfiles-oid-train" no-overlap="" vertical-align="top">
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00000-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">1</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00001-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">2</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00002-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">3</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00003-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">4</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00004-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">5</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00005-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">6</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00006-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">7</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00007-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">8</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00008-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">9</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_localized_narratives-00009-of-00010.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">10</paper-button>
+              </a>
+            </div>
+          </paper-dialog>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        COCO
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 50%;">
+          <paper-button class="page-button" onclick="document.getElementById('subfiles-coco-train').positionTarget = this;document.getElementById('subfiles-coco-train').open();">
+            Train
+          </paper-button>
+          <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" horizontal-align="left" id="subfiles-coco-train" no-overlap="" vertical-align="top">
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_localized_narratives-00000-of-00004.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">1</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_localized_narratives-00001-of-00004.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">2</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_localized_narratives-00002-of-00004.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">3</paper-button>
+              </a>
+            </div>
+            <div class="col-button">
+              <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_localized_narratives-00003-of-00004.jsonl
+" style="text-decoration: none;">
+                <paper-button class="page-button" style="min-width: 45px;">4</paper-button>
+              </a>
+            </div>
+          </paper-dialog>
+        </div>
+        <div class="col-button" style="width: 50%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_val_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation</paper-button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="center">
+      <div style="margin-bottom: 10px; margin-top: 45px;"><b>Textual captions only</b></div>
+              <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
+      To facilitate download, below are the annotations on the same images as above but containing
+      only the textual caption, in case you are only interested in this part of Localized
+      Narratives.
+      </div>
+    </div>
+    <div class="row" style="margin-top: 15px;">
+      <div class="col-download-text">
+        Open Images
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 100%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train</paper-button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        COCO
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 50%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 50%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_val_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation</paper-button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="separator" style="margin-bottom: 100px;">
+
+  
+  <div id="start-mask">
+    <paper-spinner active="" id="start-spinner"></paper-spinner>
+  </div>
+  <div id="mask">
+    <paper-spinner active="" id="spinner"></paper-spinner>
+  </div>
+  <paper-card id="visualizer">
+    <paper-icon-button class="close-button" icon="clear" id="close-visualizer-button"></paper-icon-button>
+    <div class="card-actions">
+      <paper-button id="previous">
+        <iron-icon class="icon" icon="chevron-left"></iron-icon>
+        Previous
+      </paper-button>
+      <paper-button id="random">Random</paper-button>
+      <paper-button id="next">Next
+        <iron-icon class="icon" icon="chevron-right"></iron-icon>
+      </paper-button>
+    </div>
+    <div class="card-content">
+      <audio controls="" id="audio">
+      </audio>
+      <loco-annotated-image border-width="0" canvas-height="800" canvas-margin="20" id="display">
+      </loco-annotated-image>
+      <paper-card class="caption-card" style="min-height: 6em; margin-bottom: 10px;">
+        <div class="caption-title">Caption</div>
+        <div class="caption-content"><span id="timed-caption"></span></div>
+      </paper-card>
+      <paper-card class="caption-card" style="font-size: 95%;">
+        <div class="caption-title">Metadata</div>
+        <div class="caption-content">
+          Image source: <a id="image-title" target="_blank"></a>.
+          Author: <a id="image-author" target="_blank"></a>.
+          <a id="image-license" target="_blank">Image license</a>.
+          <br>
+          Dataset: <a href="https://g.co/dataset/openimages" target="_blank">Open Images</a>.
+          ID: <span id="image-id"></span>.
+          <a id="recording-file" target="_blank">Recording file</a>.
+        </div>
+      </paper-card>
+      <div id="automatic-transcription" style="visibility: hidden;">
+      </div>
+    </div>
+  </paper-card>
+</div>
+
+
+
+<script src="web.js"></script></body></html>
