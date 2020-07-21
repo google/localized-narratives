@@ -17,7 +17,7 @@
 
 import json
 import os
-from typing import Dict, Generator, List, NamedTuple, Tuple, Union
+from typing import Dict, Generator, List, NamedTuple
 import wget  # type: ignore
 
 
@@ -26,13 +26,23 @@ _ANNOTATIONS_ROOT_URL = f'{_ROOT_URL}/annotations'
 _RECORDINGS_ROOT_URL = f'{_ROOT_URL}/voice-recordings'
 
 _ANNOTATION_FILES = {
-    'open_images_train':
-        (f'open_images_train_v6_localized_narratives-{i:05d}-of-00010.jsonl'
-         for i in range(10)),
-    'coco_train': (f'coco_train_localized_narratives-{i:05d}-of-00004.jsonl'
-                   for i in range(4)),
-    'coco_val': (f'coco_val_localized_narratives.jsonl',)
-}  # type: Dict[str, Union[Generator[str, None, None], Tuple[str, ...]]]
+    'open_images_train': [
+        f'open_images_train_v6_localized_narratives-{i:05d}-of-00010.jsonl'
+        for i in range(10)
+    ],
+    'open_images_val': ['open_images_validation_localized_narratives.jsonl'],
+    'open_images_test': ['open_images_test_localized_narratives.jsonl'],
+    'coco_train': [
+        f'coco_train_localized_narratives-{i:05d}-of-00004.jsonl'
+        for i in range(4)
+    ],
+    'coco_val': ['coco_val_localized_narratives.jsonl'],
+    'flickr30k_train': ['flickr30k_train_localized_narratives.jsonl'],
+    'flickr30k_val': ['flickr30k_val_localized_narratives.jsonl'],
+    'flickr30k_test': ['flickr30k_test_localized_narratives.jsonl'],
+    'ade20k_train': ['ade20k_train_localized_narratives.jsonl'],
+    'ade20k_val': ['ade20k_validation_localized_narratives.jsonl']
+}  # type: Dict[str, List[str, ...]]]
 
 
 class TimedPoint(NamedTuple):

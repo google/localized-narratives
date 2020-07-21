@@ -384,7 +384,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     .paper-col {
-      width: 12.5%;
+      width: 7.14%;
       float: left;
     }
 
@@ -577,43 +577,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <h2>Publication</h2>
   <a href="https://arxiv.org/pdf/1912.03098.pdf" target="_blank">
     <div class="row">
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-01.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-02.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-03.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-04.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-05.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-06.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-07.png"></div>
-      <div class="paper-col"><img class="paper-col-im" src="images/paper-thumbnail-08.png"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_1.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_2.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_3.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_4.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_5.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_6.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_7.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_8.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_9.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_10.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_11.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_12.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_13.jpeg"></div>
+      <div class="paper-col"><img class="paper-col-im" src="images/paper_thumb_14.jpeg"></div>
     </div>
   </a>
 
   <div class="center block" style="margin-top: 10px;"><b>Connecting Vision and Language with
     Localized Narratives</b><br>
     Jordi Pont-Tuset, Jasper Uijlings, Soravit Changpinyo, Radu Soricut, and Vittorio Ferrari<br>
-    arXiv:1912.03098, 2019<br>
+    ECCV (Spotlight), 2020<br>
     [<a href="https://arxiv.org/pdf/1912.03098.pdf" target="_blank">PDF</a>] [<a href="javascript:document.getElementById('bibtex').open();">BibTeX</a>]
   </div>
-  <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" id="bibtex" with-backdrop=""><pre>@article{PontTuset_arxiv2019,
-  author  = {Jordi Pont-Tuset and Jasper Uijlings and Soravit Changpinyo and Radu Soricut and Vittorio Ferrari},
-  title   = {Connecting Vision and Language with Localized Narratives},
-  journal = {arXiv},
-  volume  = {1912.03098},
-  year    = {2019}
+  <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" id="bibtex" with-backdrop=""><pre>@inproceedings{PontTuset_eccv2020,
+  author    = {Jordi Pont-Tuset and Jasper Uijlings and Soravit Changpinyo and Radu Soricut and Vittorio Ferrari},
+  title     = {Connecting Vision and Language with Localized Narratives},
+  booktitle = {ECCV},
+  year      = {2020}
 }</pre>
   </paper-dialog>
   <hr class="separator">
   <h2>Abstract</h2>
   <div class="center block">
-    We propose Localized Narratives, an efficient way to collect image captions with dense visual
-    grounding. We ask annotators to describe an image with their voice while simultaneously hovering
+We propose Localized Narratives, a new form of multimodal image annotations connecting vision and
+    language. We ask annotators to describe an image with their voice while simultaneously hovering
     their mouse over the region they are describing. Since the voice and the mouse pointer are
     synchronized, we can localize every single word in the description. This dense visual grounding
-    takes the form of a mouse trace segment per word and is unique to our data. We annotate 628k
-    images with Localized Narratives: the whole COCO dataset and 504k images of the Open Images
-    dataset, which can be downloaded below. We provide an extensive analysis of these annotations
-    and demonstrate their utility on two applications which benefit from our
-    mouse trace: controlled image captioning and image generation.
+    takes the form of a mouse trace segment per word and is unique to our data. We annotated 849k
+    images with Localized Narratives: the whole COCO, Flickr30k, and ADE20K datasets, and 671k
+    images of Open Images, all of which we make publicly available. We provide an extensive
+    analysis of these annotations showing they are diverse, accurate, and efficient to produce.
+    We also demonstrate their utility on the application of controlled image captioning.
   </div>
   <hr class="separator">
   <h2>Explore Localized Narratives</h2>
@@ -652,10 +657,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="center">
       <div style="margin-bottom: 10px; margin-top: 45px;"><b>Full Localized Narratives</b></div>
               <div style="max-width: 730px; margin-left: auto; margin-right: auto;">
-                Here you can download the full Localized Narratives
+                Here you can download the full 873,107 Localized Narratives
                 (<span id="open-formats-link-2" style="text-decoration: underline;cursor: pointer;">format description</span>).
                 <br>Large files are split in shards (a list of them will appear when you click
-                below)
+                below).
+                <br>In parantheses, the number of Localized Narratives in each split.
               </div>
       <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" id="formats" with-backdrop="">
         <paper-icon-button class="close-button" icon="clear" id="close-formats-button"></paper-icon-button>
@@ -707,9 +713,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Open Images
       </div>
       <div class="col-download-buttons">
-        <div class="col-button" style="width: 100%;">
+        <div class="col-button" style="width: 33%;">
           <paper-button class="page-button" onclick="document.getElementById('subfiles-oid-train').positionTarget = this;document.getElementById('subfiles-oid-train').open();">
-            Train
+            Train (507,444)
           </paper-button>
           <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" horizontal-align="left" id="subfiles-oid-train" no-overlap="" vertical-align="top">
             <div class="col-button">
@@ -774,6 +780,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </paper-dialog>
         </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_validation_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (41,691)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_test_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Test (126,020)</paper-button>
+          </a>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -781,9 +797,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         COCO
       </div>
       <div class="col-download-buttons">
-        <div class="col-button" style="width: 50%;">
+        <div class="col-button" style="width: 33%;">
           <paper-button class="page-button" onclick="document.getElementById('subfiles-coco-train').positionTarget = this;document.getElementById('subfiles-coco-train').open();">
-            Train
+            Train (134,272)
           </paper-button>
           <paper-dialog entry-animation="fade-in-animation" exit-animation="fade-out-animation" horizontal-align="left" id="subfiles-coco-train" no-overlap="" vertical-align="top">
             <div class="col-button">
@@ -812,10 +828,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </paper-dialog>
         </div>
-        <div class="col-button" style="width: 50%;">
+        <div class="col-button" style="width: 33%;">
           <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_val_localized_narratives.jsonl" style="text-decoration: none;">
-            <paper-button class="page-button">Validation</paper-button>
+            <paper-button class="page-button">Validation (8,573)</paper-button>
           </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        Flickr30k
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_train_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train (30,546)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_val_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (1,009)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_test_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Test (1,023)</paper-button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        ADE20k
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/ade20k_train_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train (20,476)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/ade20k_validation_localized_narratives.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (2,053)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
         </div>
       </div>
     </div>
@@ -832,9 +891,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Open Images
       </div>
       <div class="col-download-buttons">
-        <div class="col-button" style="width: 100%;">
+        <div class="col-button" style="width: 33%;">
           <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_train_v6_captions.jsonl" style="text-decoration: none;">
-            <paper-button class="page-button">Train</paper-button>
+            <paper-button class="page-button">Train (507,444)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_validation_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (41,691)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/open_images_test_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Test (126,020)</paper-button>
           </a>
         </div>
       </div>
@@ -844,15 +913,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         COCO
       </div>
       <div class="col-download-buttons">
-        <div class="col-button" style="width: 50%;">
+        <div class="col-button" style="width: 33%;">
           <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_train_captions.jsonl" style="text-decoration: none;">
-            <paper-button class="page-button">Train</paper-button>
+            <paper-button class="page-button">Train (134,272)</paper-button>
           </a>
         </div>
-        <div class="col-button" style="width: 50%;">
+        <div class="col-button" style="width: 33%;">
           <a href="https://storage.googleapis.com/localized-narratives/annotations/coco_val_captions.jsonl" style="text-decoration: none;">
-            <paper-button class="page-button">Validation</paper-button>
+            <paper-button class="page-button">Validation (8,573)</paper-button>
           </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        Flickr30k
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_train_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train (30,546)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_val_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (1,009)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/flickr30k_test_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Test (1,023)</paper-button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-download-text">
+        ADE20k
+      </div>
+      <div class="col-download-buttons">
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/ade20k_train_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Train (20,476)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
+          <a href="https://storage.googleapis.com/localized-narratives/annotations/ade20k_validation_captions.jsonl" style="text-decoration: none;">
+            <paper-button class="page-button">Validation (2,053)</paper-button>
+          </a>
+        </div>
+        <div class="col-button" style="width: 33%;">
         </div>
       </div>
     </div>
