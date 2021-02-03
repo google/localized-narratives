@@ -18,19 +18,19 @@ import localized_narratives
 
 # This folder is where you would like to download the annotation files to and
 # where to read them from.
-local_dir = '/path/to/downloaded/data'
+local_dir = '/usr/local/google/home/jponttuset/datasets/LocalizedNarratives'
 
 # The DataLoader class allows us to download the data and read it from file.
 data_loader = localized_narratives.DataLoader(local_dir)
 
 # Downloads the annotation files (it first checks if they are not downloaded).
-data_loader.download_annotations('coco_val')
+data_loader.download_annotations('flickr30k_test')
 
 # Iterates through all or a limited number of (e.g. 1 in this case) annotations
 # for all files found in the local folder for a given dataset and split. E.g.
 # for `open_images_train` it will read only one shard if only one file was
 # downloaded manually.
-loc_narr = next(data_loader.load_annotations('coco_val', 1))
+loc_narr = next(data_loader.load_annotations('flickr30k_test', 1))
 
 print(f'\nLocalized Narrative sample:\n{loc_narr}')
 
