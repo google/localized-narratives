@@ -48,7 +48,7 @@ def convert_recording(input_file, output_file):
 
 def speech_to_text(recording_file):
   # Loads from local file. If longer than 60 seconds, upload to GCS and use
-  # `audio = speech.RecognitionAudio(uri=gcs_uri)`
+    audio = speech.RecognitionAudio(uri=gcs_uri)
   with io.open(recording_file, 'rb') as audio_file:
     content = audio_file.read()
   audio = speech.RecognitionAudio(content=content)
