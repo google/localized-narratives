@@ -17,6 +17,7 @@
 
 import json
 import os
+import re
 from typing import Dict, Generator, List, NamedTuple
 import wget  # type: ignore
 
@@ -73,7 +74,18 @@ class LocalizedNarrative(NamedTuple):
 
   @property
   def voice_recording_url(self) -> str:
-    return f'{_RECORDINGS_ROOT_URL}/{self.voice_recording}'
+    """Returns the absolute path where to find the voice recording file."""
+    # Fixes the voice recording path for Flickr30K and ADE20k
+    if 'Flic' in self.dataset_id or 'ADE' in self.dataset_id:
+      split_id, image_id = re.search(r'(\w+)/\w+_([0-9]+)_[0-9]+\.',
+                                     self.voice_recording).groups()
+      image_id = image_id.zfill(16)
+      voice_recording = (f'{split_id}/'
+                         f'{split_id}_{image_id}_{self.annotator_id}.ogg')
+    else:
+      voice_recording = self.voice_recording
+
+    return f'{_RECORDINGS_ROOT_URL}/{voice_recording}'
 
   def __repr__(self):
     truncated_caption = self.caption[:60] + '...' if len(

@@ -634,7 +634,7 @@ We propose Localized Narratives, a new form of multimodal image annotations conn
     </div>
   </paper-card>
   <paper-button class="page-button block" id="open-visualizer">Explore</paper-button>
-    <hr class="separator">
+  <hr class="separator">
   <h2>License</h2>
   <div class="center block">
     All the annotations available through this website are released under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a> license.
@@ -694,7 +694,8 @@ We propose Localized Narratives, a new form of multimodal image annotations conn
               <li><tt class="field">traces</tt> List of trace segments, one between each time the mouse
               pointer enters the image and goes away from it. Each trace segment is represented as a list
               of timed points, i.e. <tt>{x, y, t}</tt>, where <tt>x</tt> and <tt>y</tt> are the normalized
-              image coordinates and <tt>t</tt> is the time in seconds since the start of the recording.
+              image coordinates (with origin at the top-left corner of the image) and <tt>t</tt> is
+                the time in seconds since the start of the recording.
                 Please note that the coordinates can go a bit beyond the image, i.e. <tt>&lt;0</tt>
                 or <tt>&gt;1</tt>, as we recorded the mouse traces including a small band around the image.</li>
               <li><tt class="field">voice_recording</tt> Relative URL path with respect to
@@ -884,7 +885,6 @@ We propose Localized Narratives, a new form of multimodal image annotations conn
         <div class="col-button" style="width: 33%;">
         </div>
       </div>
-
     </div>
     <div class="center">
       <div style="margin-bottom: 10px; margin-top: 45px;"><b>Textual captions only</b></div>
@@ -976,19 +976,18 @@ We propose Localized Narratives, a new form of multimodal image annotations conn
         </div>
       </div>
     </div>
-  
     <div class="center">
       <div style="margin-bottom: 10px; margin-top: 45px;"><b>Automatic speech-to-text transcriptions</b></div>
-              <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
-      <p>Below you can download the <a href="https://cloud.google.com/speech-to-text" target="_blank">automatic speech-to-text</a>
-                transcriptions from the voice recordings.
-        The format is a list of text chunks, each of which is a list of ten alternatives along with its confidence.</p>
-      <p></p><b>Please note</b>: the final caption text of Localized Narratives is given manually by the annotators.
-                The automatic transcriptions below are only used to temporally align the manual transcription to the mouse traces.
-                The timestamps used for this, though, were not stored, so the alignment process cannot be reproduced.
-                To have some timestamps, you'd need to re-run Google's speech-to-text transcription
-                (<a target="_blank" href="https://github.com/google/localized-narratives/blob/master/transcription_example.py">here</a> the code we used).
-                Given that the API is constantly evolving, though, the transcription will likely not match the one stored below.</p>
+      <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
+        <p>Below you can download the <a href="https://cloud.google.com/speech-to-text" target="_blank">automatic speech-to-text</a>
+          transcriptions from the voice recordings.
+          The format is a list of text chunks, each of which is a list of ten alternatives along with its confidence.</p>
+        <p></p><b>Please note</b>: the final caption text of Localized Narratives is given manually by the annotators.
+        The automatic transcriptions below are only used to temporally align the manual transcription to the mouse traces.
+        The timestamps used for this, though, were not stored, so the alignment process cannot be reproduced.
+        To have some timestamps, you'd need to re-run Google's speech-to-text transcription
+        (<a target="_blank" href="https://github.com/google/localized-narratives/blob/master/transcription_example.py">here</a> the code we used).
+        Given that the API is constantly evolving, though, the transcription will likely not match the one stored below.<p></p>
       </div>
     </div>
     <div class="row" style="margin-top: 15px;">
