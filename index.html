@@ -238,7 +238,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       
       <template is="dom-repeat" items="[[curves]]">
-        <loco-curve line-color="rgb(0,200,0)" line-width="1" points="{{item}}">
+        <loco-curve line-color="[[getTraceColor_(item)]]" line-width="3" points="{{item}}">
         </loco-curve>
       </template>
 
@@ -650,7 +650,7 @@ We propose Localized Narratives, a new form of multimodal image annotations conn
           to view the code to download and work with Localized
           Narratives.<br>Here is the <span id="open-formats-link-1" style="text-decoration: underline;cursor: pointer;">documentation</span>
           about the file formats used.<br>
-					Alternatively, you can manually download the data below.
+          Alternatively, you can manually download the data below.
       </div>
       <div style="margin-bottom: 10px; margin-top:30px;"><b>From Traces to Boxes</b></div>
         <div style="max-width: 680px; margin-left: auto; margin-right: auto;">
